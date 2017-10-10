@@ -219,7 +219,7 @@ exports.handler = (event, context, callback) => {
 
     req.end();
   }
-
+  //you can create your own API based on the structure below or you could mock out this step
   function getStatusFromBrowserDemo(request_id, hashed_vname, action, field) {
     var queryString = '/browserdemo/crud?action=' + action + '&field=' + field + '&value=';
     var appToken = request_id + '.' + hashed_vname;
