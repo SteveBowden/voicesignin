@@ -1,5 +1,5 @@
 Configure these how you want, this is just how they are set up in the youtube videos (https://youtu.be/NbUZGgkBZmo , https://youtu.be/WzpszZWmzpI)
-Name Name of the skill that is displayed to customers in the Alexa app
+Name - Name of the skill that is displayed to customers in the Alexa app\n
 voicesignin hub
-Invocation Name The name customers use to activate the skill. 
+Invocation Name - The name customers use to activate the skill. \n
 voice sign in
