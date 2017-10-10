@@ -3,3 +3,6 @@ Name - Name of the skill that is displayed to customers in the Alexa app<br>
 voicesignin hub<br><br>
 Invocation Name - The name customers use to activate the skill.<br>
 voice sign in<br>
+<br>
+To activate skill say:<br>
+"Alexa, tell voicesignin that I'm the [color] [animal] of [US city]"
