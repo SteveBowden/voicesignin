@@ -1,0 +1,40 @@
+voicesigninVersionOne that I am the {color} {animal} of {city}
+voicesigninVersionOne that I am the {color} {animal} of {city}
+voicesigninVersionOne I am the {color} {animal} of {city}
+voicesigninVersionOne I am the {color} {animal} of {city}
+voicesigninVersionOne that I'm the {color} {animal} of {city}
+voicesigninVersionOne that I'm the {color} {animal} of {city}
+voicesigninVersionOne I'm the {color} {animal} of {city}
+voicesigninVersionOne I'm the {color} {animal} of {city}
+voicesigninVersionOne that I am the {color} {animal} of {city}
+voicesigninVersionOne that I am the {color} {animal} of {city}
+voicesigninVersionOne I am the {color} {animal} of {city}
+voicesigninVersionOne I am the {color} {animal} of {city}
+voicesigninVersionOne that I'm the {color} {animal} of {city}
+voicesigninVersionOne that I'm the {color} {animal} of {city}
+voicesigninVersionOne I'm the {color} {animal} of {city}
+voicesigninVersionOne I'm the {color} {animal} of {city}
+voicesigninVersionOne that I am the {color} {animal} from {city}
+voicesigninVersionOne that I am the {color} {animal} from {city}
+voicesigninVersionOne I am the {color} {animal} from {city}
+voicesigninVersionOne I am the {color} {animal} from {city}
+voicesigninVersionOne that I'm the {color} {animal} from {city}
+voicesigninVersionOne that I'm the {color} {animal} from {city}
+voicesigninVersionOne I'm the {color} {animal} from {city}
+voicesigninVersionOne I'm the {color} {animal} from {city}
+voicesigninVersionOne that I am the {color} {animal} from {city}
+voicesigninVersionOne that I am the {color} {animal} from {city}
+voicesigninVersionOne I am the {color} {animal} from {city}
+voicesigninVersionOne I am the {color} {animal} from {city}
+voicesigninVersionOne that I'm the {color} {animal} from {city}
+voicesigninVersionOne that I'm the {color} {animal} from {city}
+voicesigninVersionOne I'm the {color} {animal} from {city}
+voicesigninVersionOne I'm the {color} {animal} from {city}
+voicesigninConfirmAcceptance I have accepted
+voicesigninConfirmAcceptance I accepted it
+voicesigninConfirmAcceptance I pressed connect
+voicesigninConfirmAcceptance I have done it
+voicesigninConfirmAcceptance I've done it
+voicesigninConfirmAcceptance All good
+voicesigninConfirmAcceptance All good to go
+voicesigninConfirmAcceptance All done
