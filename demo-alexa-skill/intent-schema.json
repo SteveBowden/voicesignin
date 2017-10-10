@@ -1,0 +1,24 @@
+{
+  "intents": [
+    {
+      "slots": [
+        {
+          "name": "color",
+          "type": "v_color"
+        },
+        {
+          "name": "animal",
+          "type": "v_animal"
+        },
+        {
+          "name": "city",
+          "type": "v_city"
+        }
+      ],
+      "intent": "voicesigninVersionOne"
+    },
+    {
+      "intent": "voicesigninConfirmAcceptance"
+    }
+  ]
+}
