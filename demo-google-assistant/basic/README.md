@@ -1,4 +1,4 @@
-A quick copy past sample code for adding to DialogFlow console in the fullfullment section. You will also need to set up two intents (provide_vname and check_status). 
+A quick copy past sample code for adding to DialogFlow console in the fullfullment section (don't forget to add your API keys). You will also need to set up two intents (provide_vname and check_status). 
 
 Use the attached csv files to upload the lookup list into the entities section (@v_color, @v_animal and @v_city) and refer to them in the provide_name intent as follows:
 
