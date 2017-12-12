@@ -134,7 +134,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
                     var responseWords = 'I sent you a ' + requestResponse.color.toLowerCase() + ' button, please let me know when you have accepted';
                     responseObject["speech"] = responseWords;
                     responseObject["displayText"] = responseWords;
-                    var outputContexts = [{'name': 'request_details', 'lifespan': 2, 'parameters': {'hashed_vname': requestResponse.hashed_vname,'request_id':requestResponse.request_id,'color':requestResponse.color}}];
+                    var outputContexts = [{'name': 'request_details', 'lifespan': 3, 'parameters': {'hashed_vname': requestResponse.hashed_vname,'request_id':requestResponse.request_id,'color':requestResponse.color}}];
                     responseObject["outputContexts"] = outputContexts;
                     sendResponse(responseObject);
                     return null;
@@ -207,19 +207,61 @@ function getRequestDetails(request_id, hashed_vname) {
   
   function sendGoogleResponse (responseToUser) {
     if (typeof responseToUser === 'string') {
+        console.log('was string');
+    console.log(responseToUser);
       app.ask(responseToUser); // Google Assistant response
     } else {
+                console.log('was object');
+    console.log(JSON.stringify(responseToUser));
+  /*  
       // If speech or displayText is defined use it to respond
-      let googleResponse = app.buildRichResponse().addSimpleResponse({
-        speech: responseToUser.speech || responseToUser.displayText,
-        displayText: responseToUser.displayText || responseToUser.speech
+      
+     let googleResponse = app.buildRichResponse().addSimpleResponse({
+        speech: responseToUser.speech,
+        displayText: responseToUser.displayText
       });
 
 
       // Optional: add contexts (https://dialogflow.com/docs/contexts)
+     
       if (responseToUser.outputContexts) {
         app.setContext(...responseToUser.outputContexts);
       }
+      
+*/
+ var  googleResponse =  {
+  "speech": responseToUser.speech, 
+    "contextOut": responseToUser.outputContexts,
+  "displayText": responseToUser.displayText,
+  "data": {
+    "google": {
+      "expect_user_response": true,
+      "is_ssml": false,
+               "rich_response":{
+            "items":[
+               {
+                  "simple_response":{
+                     "text_to_speech":responseToUser.speech,
+                     "display_text":responseToUser.displayText
+                  }
+               }
+            ],
+            "suggestions":[]
+         },
+         "no_input_prompts":[],
+      "permissions_request": {
+        "opt_context": "",
+        "permissions": []
+      }
+    }
+  }
+
+};
+
+
+console.log(JSON.stringify(googleResponse));
+
+
 
       app.ask(googleResponse); // Send response to Dialogflow and Google Assistant
     }
@@ -257,4 +299,3 @@ function getRequestDetails(request_id, hashed_vname) {
     }
   }
 });
-
