@@ -45,15 +45,16 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
     },
        // The default welcome intent has been matched, welcome the user (https://dialogflow.com/docs/events#default_welcome_intent)
     'input.check_status': () => {
-
-        if (request.body.result.contexts[0] && request.body.result.contexts[0].name == 'request_details')
+        console.log('contexts : ' + JSON.stringify(request.body.result.contexts));
+        if (app.data.request_details)
         {
-        var requestId = request.body.result.contexts[0].parameters.request_id;
-        var hashedVname = request.body.result.contexts[0].parameters.hashed_vname;
+        var requestId = app.data.request_details.request_id;
+        var hashedVname = app.data.request_details.hashed_vname;
         getRequestDetails(requestId, hashedVname);   
         }
         else
         {
+            console.log('app data on next intent: ' + JSON.stringify(app.data));
             sendResponse('I haven\'t tried connecting yet');
         }
 
@@ -62,8 +63,6 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
     'default': () => {
       // Use the Actions on Google lib to respond to Google requests; for other requests use JSON
         let responseToUser = {
-          //richResponses: richResponses, // Optional, uncomment to enable
-          outputContexts: [{'name': 'weather', 'lifespan': 2, 'parameters': {'city': 'Rome'}}], // Optional, uncomment to enable
           speech: 'This message vcheck norm is from Dialogflow\'s Cloud Functions for Firebase editor!', // spoken response
           displayText: 'This  vcheck norm is from Dialogflow\'s Cloud Functions for Firebase editor! :-)' // displayed response
         };
@@ -121,7 +120,6 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
         const req = https.request(options, (res) => {
             console.log('statusCode:', res.statusCode);
             console.log('headers:', res.headers);
-            //      console.log('data:',res.data);
             var rawData = '';
 
             res.on('data', (chunk) => { rawData += chunk; });
@@ -134,8 +132,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
                     var responseWords = 'I sent you a ' + requestResponse.color.toLowerCase() + ' button, please let me know when you have accepted';
                     responseObject["speech"] = responseWords;
                     responseObject["displayText"] = responseWords;
-                    var outputContexts = [{'name': 'request_details', 'lifespan': 3, 'parameters': {'hashed_vname': requestResponse.hashed_vname,'request_id':requestResponse.request_id,'color':requestResponse.color}}];
-                    responseObject["outputContexts"] = outputContexts;
+                    app.data.request_details = {'hashed_vname': requestResponse.hashed_vname,'request_id':requestResponse.request_id,'color':requestResponse.color};
                     sendResponse(responseObject);
                     return null;
 
@@ -191,9 +188,7 @@ function getRequestDetails(request_id, hashed_vname) {
                 var responseWords = 'The request was ' + connectionStatus.request_status + ' when I checked';
                 responseObject["speech"] = responseWords;
                 responseObject["displayText"] = responseWords;
-                var outputContexts = request.body.result.contexts;
-                responseObject["outputContexts"] = outputContexts;
-                responseObject["outputContexts"][0]["parameters"]["request_status"] = connectionStatus.request_status
+                app["data"]["request_status"] = connectionStatus.request_status;
                 sendResponse(responseObject);
             });
         });
@@ -213,51 +208,13 @@ function getRequestDetails(request_id, hashed_vname) {
     } else {
                 console.log('was object');
     console.log(JSON.stringify(responseToUser));
-  /*  
+  
       // If speech or displayText is defined use it to respond
       
      let googleResponse = app.buildRichResponse().addSimpleResponse({
         speech: responseToUser.speech,
         displayText: responseToUser.displayText
       });
-
-
-      // Optional: add contexts (https://dialogflow.com/docs/contexts)
-     
-      if (responseToUser.outputContexts) {
-        app.setContext(...responseToUser.outputContexts);
-      }
-      
-*/
- var  googleResponse =  {
-  "speech": responseToUser.speech, 
-    "contextOut": responseToUser.outputContexts,
-  "displayText": responseToUser.displayText,
-  "data": {
-    "google": {
-      "expect_user_response": true,
-      "is_ssml": false,
-               "rich_response":{
-            "items":[
-               {
-                  "simple_response":{
-                     "text_to_speech":responseToUser.speech,
-                     "display_text":responseToUser.displayText
-                  }
-               }
-            ],
-            "suggestions":[]
-         },
-         "no_input_prompts":[],
-      "permissions_request": {
-        "opt_context": "",
-        "permissions": []
-      }
-    }
-  }
-
-};
-
 
 console.log(JSON.stringify(googleResponse));
 
@@ -267,35 +224,23 @@ console.log(JSON.stringify(googleResponse));
     }
   }
 
-  // Function to send correctly formatted responses to Dialogflow which are then sent to the user
   function sendResponse (responseToUser) {
-    // if the response is a string send it as a response to the user
     if (requestSource === googleAssistantRequest) {
         sendGoogleResponse(responseToUser); // Send simple response to user
         return null;
       }
-    
     if (typeof responseToUser === 'string') {
       let responseJson = {};
       responseJson.speech = responseToUser; // spoken response
       responseJson.displayText = responseToUser; // displayed response
       response.json(responseJson); // Send response to Dialogflow
     } else {
-      // If the response to the user includes rich responses or contexts send them to Dialogflow
-      let responseJson = {};
 
-      // If speech or displayText is defined, use it to respond (if one isn't defined use the other's value)
-      responseJson.speech = responseToUser.speech || responseToUser.displayText;
-      responseJson.displayText = responseToUser.displayText || responseToUser.speech;
-
-      // Optional: add rich messages for integrations (https://dialogflow.com/docs/rich-messages)
-      responseJson.data = responseToUser.richResponses;
-
-      // Optional: add contexts (https://dialogflow.com/docs/contexts)
-      responseJson.contextOut = responseToUser.outputContexts;
-      
-      console.log(JSON.stringify(responseJson));
-      response.json(responseJson); // Send response to Dialogflow
+    let responseJson = app.buildRichResponse().addSimpleResponse({
+        speech: responseToUser.speech,
+        displayText: responseToUser.displayText
+      });
+      app.ask(responseJson)
     }
   }
 });
