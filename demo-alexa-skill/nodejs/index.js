@@ -3,11 +3,27 @@ var https = require('https');
 exports.handler = (event, context, callback) => {
 
   console.log(JSON.stringify(event));
-  //*************************
-  var voicesigninApiKey = ''; // add your API key here
-  //*************************
+  //you can match this key with the key used in your api authorizers to leverage your app's APIs rather than repeating your logic
+  var voicesigninApiKey = ''; //ADD YOUR API KEY HERE
   var reponseMessage = {};
-  if (event.request.intent.name == 'voicesigninVersionOne') {
+  if (event.request.type == 'LaunchRequest') {
+    var getVoiceName = {
+      "version": "string",
+      "sessionAttributes": {},
+      "response": {
+        "outputSpeech": {
+          "type": "PlainText",
+          "text": "What is your voice name?"
+        },
+
+        "shouldEndSession": false
+      }
+
+    };
+    context.done(null, getVoiceName);
+
+  }
+  else if (event.request.intent.name == 'voicesigninVersionOne') {
     sendRequestToVoiceSignin();
 
   }
@@ -219,7 +235,7 @@ exports.handler = (event, context, callback) => {
 
     req.end();
   }
-  //you can create your own API based on the structure below or you could mock out this step
+
   function getStatusFromBrowserDemo(request_id, hashed_vname, action, field) {
     var queryString = '/browserdemo/crud?action=' + action + '&field=' + field + '&value=';
     var appToken = request_id + '.' + hashed_vname;
