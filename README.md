@@ -1,4 +1,5 @@
 # voicesignin.com authentication platform
+THIS WEBSITE HAS BEEN SHUT DOWN
 This repo contains snippets, samples and contributions to client and server side code interacting with the voicesignin API.
 
 Grab the code snippets from here and get your API keys from the voicesignin.com developer portal (https://developer.voicesignin.com).
